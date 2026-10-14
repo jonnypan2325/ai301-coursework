@@ -58,7 +58,7 @@ fix/60-null-chunk-text
 
 **Evidence**
 
-These are my Unit 2 reproduction steps re-run against the built change, in the same environment as the Unit 2 report: macOS 26.6.2 (arm64), Python 3.11.16, structlog 26.1.0, pytest 9.1.1, in the fork's `.venv`. Local path prefixes are replaced with `<repo>`. Claude Code ran these commands in my clone; the output below is copied from the saved run logs.
+These are my Unit 2 reproduction steps re-run against the built change, in the same environment as the Unit 2 report: macOS 26.6.2 (arm64), Python 3.11.16, structlog 26.1.0, pytest 9.1.1, in the fork's `.venv`. Local path prefixes are replaced with `<repo>`. Claude Code first ran these commands in my clone, and the output below is copied from those saved run logs. I then re-ran the checks myself and confirmed the same results.
 
 *Before: unchanged `main` at `2f4e82f`*
 
