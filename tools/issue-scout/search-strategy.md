@@ -31,13 +31,13 @@ A filled strategy must contain:
 
 ## Queries
 
-Profile: "I want my first contribution to be in a TypeScript or Python project" + "I am most interested in backend bugs involving APIs, data flow, business logic, integrations, and server-side reliability" + "I prefer issues already labeled as bugs"
+Q1. Profile: "I want my first contribution to be in a TypeScript or Python project" + "I am most interested in backend bugs involving APIs, data flow, business logic, integrations, and server-side reliability" + "I prefer issues already labeled as bugs"
 gh search issues --language typescript --label "good first issue" --label bug --sort updated --state open --limit 100 --json title,repository,labels,assignees,commentsCount,updatedAt,url
 
-Profile: same three sentences, for the Python half of "TypeScript or Python project"
+Q2. Profile: same three sentences, for the Python half of "TypeScript or Python project"
 gh search issues --language python --label "good first issue" --label bug --sort updated --state open --limit 100 --json title,repository,labels,assignees,commentsCount,updatedAt,url
 
-Profile: "I am also interested in agentic-system and LLM-tooling bugs, especially problems involving tool use, workflow orchestration, retrieval, state handling, evaluation, and unexpected agent behavior"
+Q3. Profile: "I am also interested in agentic-system and LLM-tooling bugs, especially problems involving tool use, workflow orchestration, retrieval, state handling, evaluation, and unexpected agent behavior"
 gh search issues llm agent --language python --label bug --sort updated --state open --limit 100 --json title,repository,labels,assignees,commentsCount,updatedAt,url
 
 ## Ranking filters
@@ -59,6 +59,11 @@ reads only fields the queries return.
 6. Walk that order and keep only the first result from each repository
    (`repository.nameWithOwner`), so the graded candidates come from
    different projects instead of one repo's batch of fresh issues.
+7. Reserve one slot for Q3. If none of the top 5 after filter 6 was
+   returned by Q3, replace the fifth-ranked result with the highest-ranked
+   surviving Q3 result. A result returned by several queries counts as Q3
+   if Q3 returned it. If no Q3 result survives filters 1-4, skip this rule
+   and say so in the read-out.
 
 ## How many to grade
 
