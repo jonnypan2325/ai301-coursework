@@ -42,4 +42,4 @@ you want to avoid. It still never changes a verdict: fit cannot
 rescue an issue your rubric rejects, and cannot sink one it
 accepts. -->
 
-(Paste your fit profile here.)
+I am most interested in backend bugs involving APIs, data flow, business logic, integrations, and server-side reliability. I am also interested in agentic-system bugs, especially problems involving tool use, workflow orchestration, state handling, evaluation, and unexpected agent behavior. I prefer issues with a clear reproduction path and a testable definition of done. I want to avoid breaking changes, large architectural rewrites, and work that requires altering established public interfaces.
