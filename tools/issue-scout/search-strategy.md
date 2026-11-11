@@ -31,32 +31,35 @@ A filled strategy must contain:
 
 ## Queries
 
-<!-- Real gh search invocations, one per line, each with a comment
-naming the fit-profile sentence it came from. Example SHAPE (write
-your own; these values belong to nobody):
+Profile: "I want my first contribution to be in a TypeScript or Python project" + "I am most interested in backend bugs involving APIs, data flow, business logic, integrations, and server-side reliability" + "I prefer issues already labeled as bugs"
+gh search issues --language typescript --label "good first issue" --label bug --sort updated --state open --limit 100 --json title,repository,labels,assignees,commentsCount,updatedAt,url
 
-gh search issues --label "good first issue" --language python --state open --limit 100 --json title,repository,labels,assignees,commentsCount,updatedAt,url
--->
+Profile: same three sentences, for the Python half of "TypeScript or Python project"
+gh search issues --language python --label "good first issue" --label bug --sort updated --state open --limit 100 --json title,repository,labels,assignees,commentsCount,updatedAt,url
+
+Profile: "I am also interested in agentic-system and LLM-tooling bugs, especially problems involving tool use, workflow orchestration, retrieval, state handling, evaluation, and unexpected agent behavior"
+gh search issues llm agent --language python --label bug --sort updated --state open --limit 100 --json title,repository,labels,assignees,commentsCount,updatedAt,url
 
 ## Ranking filters
 
-<!-- Conditions and orderings over the free result fields, applied in
-the order written. State each so a stranger could apply it and get
-your ordering. Example SHAPES (write your own):
+Apply in this order to the combined, de-duplicated results. Every rule
+reads only fields the queries return.
 
-- drop any result with an assignee
-- drop any result not updated in the last 60 days
-- prefer fewer comments over more
--->
+1. Drop any result with one or more assignees.
+2. Drop any result whose `updatedAt` is more than 90 days before the scan date.
+3. Drop any result with more than 10 comments (`commentsCount` > 10): a
+   crowded thread usually means a contested or stalled issue.
+4. Drop any result carrying any of these labels (case-insensitive):
+   `question`, `discussion`, `RFC`, `epic`, `tracking`, `duplicate`,
+   `wontfix`, `invalid`.
+5. Order the survivors by comment count in this sequence: 1 to 5 comments
+   first (someone has engaged, but the thread is not crowded), then 0
+   comments, then 6 to 10 comments. Within each band, fewer comments
+   first; break ties by most recent `updatedAt` first.
+6. Walk that order and keep only the first result from each repository
+   (`repository.nameWithOwner`), so the graded candidates come from
+   different projects instead of one repo's batch of fresh issues.
 
 ## How many to grade
 
 Grade the top **5** ranked results per scan.
-
-<!-- Five is the default because grading is the only stage that costs
-money: about $0.20 per candidate, so a scan is about $1, and you can
-iterate the strategy several times for less than one full regression
-run. You need one good issue, not ten. Raising this number is
-allowed, but it is a decision you state here in a sentence, with the
-cost you are accepting; it is not a number you bump because a scan
-disappointed you once. -->
