@@ -52,10 +52,10 @@ reads only fields the queries return.
 4. Drop any result carrying any of these labels (case-insensitive):
    `question`, `discussion`, `RFC`, `epic`, `tracking`, `duplicate`,
    `wontfix`, `invalid`.
-5. Order the survivors by comment count in this sequence: 1 to 5 comments
-   first (someone has engaged, but the thread is not crowded), then 0
-   comments, then 6 to 10 comments. Within each band, fewer comments
-   first; break ties by most recent `updatedAt` first.
+5. Order the survivors by comment count, fewest first: 0 comments, then
+   1 to 5, then 6 to 10. Break ties by most recent `updatedAt` first.
+   On fresh good-first-issue bugs the first comment is usually a claim,
+   so an untouched thread is the best cheap sign the issue is still free.
 6. Walk that order and keep only the first result from each repository
    (`repository.nameWithOwner`), so the graded candidates come from
    different projects instead of one repo's batch of fresh issues.
