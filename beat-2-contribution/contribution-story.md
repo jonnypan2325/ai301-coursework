@@ -55,10 +55,17 @@ happened; these entries are the toolkit's own timeline.
 All four entries are graded. Keep every heading below, and fill each
 one in the week it belongs to.
 
-**Unit 5: [one line on the tool work]**
+**Unit 5 (2026-11-11): Built the issue-scout and patched its strategy and rubric after its first runs**
 
-[2-4 sentences: what you built (the scout, your strategy), what broke
-or fell short, what changed because of it.]
+I installed the issue-scout on top of my Unit 1 issue-select skill. Using my resume, Claude helped me update my fit profile to name TypeScript
+and Python and draft a three-query search strategy with six ranking filters.
+The first scan cut 300 results to 94 and graded five, but three of the five were rejected because someone had already commented that they were taking the issue earlier that day.
+My ranking put issues with 1-5 comments ahead of untouched ones. The problem is that on fresh issues, that one comment usually means
+someone has claimed it. The same scan passed pycord#3437 on AI policy despite a "will likely result in the direct
+closure" warning for new contributors, and grading my own picks later
+passed a homework exercise (Xplore-workshop#27) on scope.
+
+Because of that, I moved zero-comment issues to the top of the ranking, tightened the AI-policy and scope checks, and added a check that flags repos where a maintainer must assign the issue first.
 
 **Unit 6: [one line on the tool work]**
 
