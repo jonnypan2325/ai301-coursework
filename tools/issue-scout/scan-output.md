@@ -294,3 +294,84 @@ Graded all four live against `rubric.md` (capture date 2026-11-17). All four wer
   }
 ]
 ```
+
+## Grade 3: 2026-11-18 (direct: three AntAlmanac picks after #2101 was taken)
+
+AntAlmanac #2101 was already claimed and fixed (a maintainer said so on Discord), so I picked three more unassigned issues with no open PR and graded them.
+
+All three are accepted: every required check passes on each. My pick is #2008, with one caution that applies to all three: on 2026-09-25 a collaborator closed a PR saying "We are prioritizing PRs from UCI students and are not accepting automatically AI-generated PRs at this time". If you are not a UCI student, ask in your claim comment before planning.
+
+All three were hand-fed URLs ("direct"), so no query or ranking signals apply. The repo-level checks are shared:
+
+- **Issue fresh:** the repo is not archived and was last pushed 2026-11-18.
+- **Maintainer alive:** human commits landed on main on 2026-11-17 (Choollol, CadenLee2).
+- **AI-assisted contribution allowed:** the ICSSC contributor guidelines say "AI assistance in development and debugging is encouraged". The conditions are that contributions are human-initiated, comments and PR descriptions are mostly human-written, AI writing is disclosed, and you review your own code.
+
+## Ranked read-out
+
+**1. [#2008](https://github.com/icssc/AntAlmanac/issues/2008): Users should not be able to save a "Loading..." course**
+- **Fit:** a TypeScript bug with repro steps where the frontend saves state the server should never hold, which is the "frontend and server disagree" case in your profile.
+- **Active contribution:** passes. The only claim is from 2025-12-17, and that person was assigned and unassigned on 2025-12-24; there is no linked PR.
+- **Open to outside claim:** fails (preferred). The README requires waiting for a maintainer to assign you, and the issue has no newcomer label, so ask before planning.
+- **Difficulty: straightforward.** The maintainer named the `useSaveRoadmap` hook and endorsed the simple fix of disabling Save while a course loads. First confirm it still reproduces: the maintainer said in December 2025 that the Application Error is probably gone but `Loading...` rows may still be saved.
+
+**2. [#762](https://github.com/icssc/AntAlmanac/issues/762): Assign CourseEvent term to CustomEvent**
+- **Fit:** the only one with all three preferred checks passing: real backend work (schema, tRPC endpoints, data flow) and a `good first task` label. It ranks below #2008 because it is an enhancement, not a bug.
+- **Active contribution:** passes. There is no assignee, and all four linked PRs (#1098, #1403, #1960, #1975) are closed unmerged, the last one as stale on 2026-10-20.
+- **Scope tension:** it passes scope-feasible as written, because adding a `term` column is additive, not breaking. But four attempts have failed, and a member wrote on #1098 "I didn't think about this when I marked the issue as a good first task". The rubric has no check for abandoned-attempt history; that is a candidate line for `scan-notes.md`.
+- **Difficulty: ambitious.** It needs a database migration plus the save and load endpoints plus the frontend; a frontend-only fix was already turned away on #1975. The edge to raise early is what happens to existing custom events, and whether an event's term should update when courses change (#1403 left that open). Open PR #2073 adds a column to the same table, so expect conflicts.
+
+**3. [#2012](https://github.com/icssc/AntAlmanac/issues/2012): Transferring Lower/Upper Div Writing does not satisfy GE requirement**
+- **Fit:** a bug with a testable outcome in TypeScript business logic, but the code is in the Planner frontend and needs knowledge of UCI's GE rules. No maintainer has commented.
+- **Active contribution:** passes. There is no assignee, no comments, and no linked PR, and the PR it was waiting on (peterportal-client#973) merged 2026-03-21.
+- **Open to outside claim:** fails (preferred), for the same reason as #2008.
+- **Difficulty: ambitious.** The issue names `helpers/courseRequirements.ts`, and the label matching it describes is still there. The open edge is the author's own note: "I did not look into how these requirements can actually be transferred". Upper-Division Writing is a Marker requirement, which may need a different completion path than the label match.
+
+One thing I could not verify: the README says the Anteater API needs a special key for search to work locally. Whether the Planner flows in #2008 and #2012 need it is worth asking in the claim comment.
+
+```json
+[
+  {
+    "item": "https://github.com/icssc/AntAlmanac/issues/2008",
+    "checks": [
+      {"name": "Issue fresh", "grade": "pass", "evidence": "archived=false; last push 2026-11-18 (within 180 days)"},
+      {"name": "Maintainer alive", "grade": "pass", "evidence": "Human commits on main 2026-11-17 by Choollol and CadenLee2"},
+      {"name": "Active contribution", "grade": "pass", "evidence": "No assignee (Ascent817 assigned then unassigned 2025-12-24); only claim comment dated 2025-12-17; no linked PR"},
+      {"name": "scope-feasible", "grade": "pass", "evidence": "One bug: saving while a course is loading persists a 'Loading...' course; maintainer named the useSaveRoadmap hook and a disable-Save fix"},
+      {"name": "AI-assisted contribution allowed", "grade": "pass", "evidence": "ICSSC guidelines: 'AI assistance in development and debugging is encouraged'; human-initiation, disclosure and self-review are conditions"},
+      {"name": "Reproduction and completion clarity", "grade": "pass", "evidence": "Four numbered repro steps; expected 'Roadmap can still load'; maintainer check: no 'Loading...' rows in planner_course"},
+      {"name": "Backend or agentic fit", "grade": "pass", "evidence": "State handling and data flow: frontend sends invalid 'Loading...' course data to the DB (labeled frontend)"},
+      {"name": "Open to outside claim", "grade": "fail", "evidence": "README: 'wait for a member of our team to assign it to you'; labels are Planner and frontend, no newcomer label"}
+    ],
+    "verdict": "accept"
+  },
+  {
+    "item": "https://github.com/icssc/AntAlmanac/issues/762",
+    "checks": [
+      {"name": "Issue fresh", "grade": "pass", "evidence": "archived=false; last push 2026-11-18; collaborator relabeled the issue 2026-10-16"},
+      {"name": "Maintainer alive", "grade": "pass", "evidence": "Human commits on main 2026-11-17 by Choollol and CadenLee2"},
+      {"name": "Active contribution", "grade": "pass", "evidence": "No assignee (unassigned 2026-01-06); PRs #1098, #1403, #1960, #1975 all closed unmerged, last closed stale 2026-10-20"},
+      {"name": "scope-feasible", "grade": "pass", "evidence": "One task: store a term on custom events (latest course term, else default); schema change is an additive column, not stated as breaking"},
+      {"name": "AI-assisted contribution allowed", "grade": "pass", "evidence": "ICSSC guidelines: 'AI assistance in development and debugging is encouraged'; automated PRs banned, human-initiated ones are not"},
+      {"name": "Reproduction and completion clarity", "grade": "pass", "evidence": "Body: 'if the terms are inconsistent ... pick the latest one'; 'if there is no CourseEvent in the schedule, use the default term'"},
+      {"name": "Backend or agentic fit", "grade": "pass", "evidence": "Collaborator on #1975: 'it will require a change to the database schema as well'; plus save/get endpoints"},
+      {"name": "Open to outside claim", "grade": "pass", "evidence": "Carries the 'good first task' label (re-added 2023-11-30, still present)"}
+    ],
+    "verdict": "accept"
+  },
+  {
+    "item": "https://github.com/icssc/AntAlmanac/issues/2012",
+    "checks": [
+      {"name": "Issue fresh", "grade": "pass", "evidence": "archived=false; last push 2026-11-18; issue transferred and labeled Planner 2026-10-11"},
+      {"name": "Maintainer alive", "grade": "pass", "evidence": "Human commits on main 2026-11-17 by Choollol and CadenLee2"},
+      {"name": "Active contribution", "grade": "pass", "evidence": "No assignee, zero comments, no linked PR; blocker peterportal-client#973 merged 2026-03-21"},
+      {"name": "scope-feasible", "grade": "pass", "evidence": "One bug: transferred GE Ia/Ib credit does not satisfy the Catalog GE requirement; body points at helpers/courseRequirements.ts"},
+      {"name": "AI-assisted contribution allowed", "grade": "pass", "evidence": "ICSSC guidelines: 'AI assistance in development and debugging is encouraged'; human-initiation, disclosure and self-review are conditions"},
+      {"name": "Reproduction and completion clarity", "grade": "pass", "evidence": "Testable outcome: transferring GE Ia or Ib via Transfer Credits should satisfy the matching GE requirement in Catalog"},
+      {"name": "Backend or agentic fit", "grade": "pass", "evidence": "Business logic: requirement-completion matching of transferred GEs by label (code lives in the Planner frontend helper)"},
+      {"name": "Open to outside claim", "grade": "fail", "evidence": "README: 'wait for a member of our team to assign it to you'; only label is Planner, no newcomer label"}
+    ],
+    "verdict": "accept"
+  }
+]
+```
