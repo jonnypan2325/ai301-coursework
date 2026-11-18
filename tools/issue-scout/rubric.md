@@ -38,11 +38,28 @@ will fail eval issues designed around that family.
 | Issue fresh | The archived flag, last push to any branch, latest release, issue creation date, and recent issue activity in the repo-facts block and comment thread. | Pass if the repository is not archived and either its last push was within 180 days or its latest release was within 365 days of the capture date. An old issue may still pass when recent comments or maintainer activity show that it remains relevant. | required |
 | Maintainer alive | The last 5 default-branch commit dates and authors, the maintainer first-response sample in the repo-facts block, and comments from an Owner, Member, or Collaborator in the issue thread. | Pass if there is at least one non-bot human commit within 90 days of the capture date or a maintainer responded to an issue within 30 days. Bot activity alone does not pass this check. | required |
 | Active contribution | The issue's assignees and linked pull requests in the repo-facts block, along with claim comments, work-in-progress statements, and pull-request references in the comment thread. | Pass if there is no current assignee, no open linked pull request, and no contributor who stated within the previous 14 days that they are actively working on the issue. Closed unmerged pull requests and abandoned claims older than 14 days do not fail the check. Apply any Path Review house rules from scope.md in live mode. | required |
-| Bounded non-breaking scope | The issue body, labels, opening date, author association, comment thread, requested deliverables, affected components, maintainer scope statements, and linked pull-request history. | Pass if the issue describes one coherent outcome whose completion can be observed or tested. Also pass a terse issue when it was opened by an Owner, Member, or Collaborator or carries a good-first-issue label and names a specific missing or incorrect behavior with finite examples, unless later evidence contradicts that scope. The work may touch multiple related files, list multiple implementation approaches, or include optional follow-up work. Fail if it is a usage question, an umbrella or tracking issue, or an open-ended codebase-wide change. Fail if a required product decision such as behavior, semantics, interface design, or an asset remains unsettled or marked TBD. Fail when an issue has been open for more than two years with at least two closed unmerged pull requests or repeated abandoned attempts, unless a maintainer clarified a current implementation path within the last 180 days. Also fail if it requires a large architectural rewrite or explicitly requires a breaking change to a public API, schema, configuration format, or other established interface. Also fail if the issue is a course, workshop, or tutorial exercise rather than a defect in the project: for example when CONTRIBUTING.md or the issue tells participants to put solutions in per-student folders or not to modify the original files, so no single fix can close it. | required |
+| scope-feasible | Issue body: the work it asks for; for exercises, the repo's CONTRIBUTING.md. | The issue describes one identifiable piece of work someone could start: a behavior, a gap, or a task you can point at. It fails only when there is no single piece of work in it: a codebase-wide checklist, an "improve X everywhere", or a container issue tracking many sub-tasks. An open design edge, an "etc.", or several files involved never fails this check; that raises the difficulty note instead. Also fail if the issue is a course, workshop, or tutorial exercise that no single fix can close (for example when CONTRIBUTING.md sends solutions to per-student folders), or if it explicitly requires a breaking change to a public API, schema, configuration format, or other established interface. | required |
 | AI-assisted contribution allowed | The contribution-policy line in the repo-facts block, including CONTRIBUTING.md, dedicated AI-policy files, and relevant issue or pull-request templates. | Pass unless the project explicitly bans AI-generated or AI-assisted contributions. Silence passes. Requirements for disclosure, testing, personal understanding, or human review pass because they are conditions rather than bans. Also fail when the policy warns that AI use by new or first-time contributors will or will likely lead to closure or rejection (for example "highly discouraged, and will likely result in the direct closure"), because for a first contribution that works as a ban. A warning that only applies to contributions breaking a stated condition, such as undisclosed AI use, is still a condition and passes. | required |
 | Reproduction and completion clarity | Reproduction steps, error output, acceptance criteria, expected behavior, labels, and maintainer clarification in the issue body and comment thread. | Pass if the evidence provides either a reproducible failure or at least one concrete, testable expected outcome. | preferred |
 | Backend or agentic fit | The issue title, body, labels, affected components, and maintainer comments. | Pass if the work concerns APIs, server-side logic, business logic, data flow, integrations, reliability, tool use, agent workflows, orchestration, state handling, evaluation, or unexpected agent behavior. | preferred |
 | Open to outside claim | The contribution steps in CONTRIBUTING.md or the README, any contributor guidelines they link, and the issue's labels and author association. | Pass if an outside contributor can start after posting a claim comment, or if the issue carries a label inviting newcomers (such as good first issue, good first task, or help wanted). Fail if the project requires a maintainer to assign the issue before work starts, or says some tasks are reserved for its own team, and the issue has no such label: the claim may be declined or left unanswered. On an accepted issue that fails this check, say so in the summary so the student asks before planning around it. | preferred |
+
+## The difficulty note
+
+With each accepted candidate, report a one-line difficulty note in
+the read-out summary:
+
+- **straightforward**: the issue names where the change lives and the
+  change is bounded.
+- **moderate**: the location is yours to find, or several files are
+  involved.
+- **ambitious**: an open design edge, or an unfamiliar subsystem;
+  name the edge, because claiming this issue means raising it with
+  the maintainer early.
+
+The note is information for the chooser, never a verdict input: it
+does not appear in the fenced JSON block, it never changes accept or
+reject, and in eval mode it is skipped entirely.
 
 ## Verdict rule
 
@@ -53,7 +70,7 @@ rank accepted issues; unclear counts as fail." -->
 
 Accept if every required check passes. Reject if any required check fails.
 
-For Issue fresh, Maintainer alive, Bounded non-breaking scope, and AI-assisted contribution allowed, an unclear result counts as a failure because the issue cannot be verified as a safe first contribution.
+For Issue fresh, Maintainer alive, scope-feasible, and AI-assisted contribution allowed, an unclear result counts as a failure because the issue cannot be verified as a safe first contribution.
 
 For Active contribution, lack of an assignee, open linked pull request, or recent claim is a pass; affirmative evidence that somebody is currently working on the issue is a failure. If the available evidence is genuinely incomplete, unclear counts as a failure.
 
