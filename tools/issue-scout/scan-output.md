@@ -205,3 +205,92 @@ It's the only accepted candidate, so there was nothing to rank it against. It's 
   }
 ]
 ```
+
+
+## Grade 2: 2026-11-17 (re-grade of the same four picks after the Unit 6 scope patch)
+
+Graded all four live against `rubric.md` (capture date 2026-11-17). All four were hand-fed, so the surfacing query and ranking signals are "direct" for each. One accept, three rejects.
+
+## Accepted
+
+**1. [icssc/AntAlmanac#2101](https://github.com/icssc/AntAlmanac/issues/2101): Show saved courses as DepartmentCourseGroup** — accept
+
+- **Fit:** TypeScript/React in a pnpm monorepo you can run locally, but it is a frontend display change, not a labeled bug, and not backend or agentic.
+- **Difficulty: moderate.** The issue names the two components but not the files. The saved-courses view is at `apps/antalmanac-planner/site/src/app/roadmap/catalog/SavedCourses.tsx`; I did not locate where `GroupRequirement` and `DepartmentCourseGroup` are defined.
+- **Ask before planning around it:** it fails "Open to outside claim". The README says to "leave a comment expressing your interest and wait for a member of our team to assign it to you", and the issue has no `good first task` label. It was opened by the Planner lead, and the guidelines say team members decide "whether a task is reserved for internal development".
+- **AI policy passes, with conditions that bind you:** ICSSC says "AI assistance in development and debugging is encouraged", but contributions "must be human-initiated" and issue, PR and comment text must "mostly consist of human writing", with AI writing disclosed. Write the claim comment and PR description yourself.
+- **Local setup not verified:** the README says the Anteater API needs a special key for search to work, and the Planner uses Google sign-in. I did not check whether the saved-courses view runs without them; your fit profile avoids maintainer-only credentials.
+
+## Rejected
+
+- **[icssc/AntAlmanac#1980](https://github.com/icssc/AntAlmanac/issues/1980): Optimize course-rename lookups** — sunk by **Active contribution**. It is assigned to victorialee13 (since 2026-10-16), and open PR #2110 from icchou233 is mid-review, with changes requested on 2026-11-13 and author replies on 2026-11-14.
+- **[AcademySoftwareFoundation/dna#255](https://github.com/AcademySoftwareFoundation/dna/issues/255): Add email provider** — sunk by **Active contribution**. Open linked PR #264 had its last commit and a maintainer comment today. This was otherwise the best fit of the four (Backend label, acceptance criteria, `good first issue`).
+- **[ProjectX-VJTI/Xplore-workshop#27](https://github.com/ProjectX-VJTI/Xplore-workshop/issues/27): Python Bugs - Exercise 1** — sunk by **scope-feasible** and **Maintainer alive**.
+  - Scope: it is a workshop exercise ("expected as a Standard Exercise for students to do"), and CONTRIBUTING sends all fixes to per-student `<githubid>_solutions` folders, so no single fix closes it.
+  - Maintainer: the last human commit on main was 2026-06-05 (165 days ago), and the March claim comment on this issue was never answered.
+
+## Rubric friction
+
+- **Issue fresh on Xplore #27:** it passes as written because the last push to any branch was 2026-11-13, but that push is `github-actions[bot]` on `gh-pages`. The check may want a "non-bot push" condition.
+- **Open to outside claim on Xplore #27:** the `good first issue` label passes it, though the PR template asks for a University ID.
+
+```json
+[
+  {
+    "item": "https://github.com/icssc/AntAlmanac/issues/2101",
+    "checks": [
+      {"name": "Issue fresh", "grade": "pass", "evidence": "Not archived; last push 2026-11-17; issue opened 2026-11-10"},
+      {"name": "Maintainer alive", "grade": "pass", "evidence": "Human default-branch commits 2026-11-17 by Choollol (#2114) and CadenLee2 (#2115)"},
+      {"name": "Active contribution", "grade": "pass", "evidence": "No assignee, no linked PR, zero comments; PR #2109 touches department groups but closes #2060"},
+      {"name": "scope-feasible", "grade": "pass", "evidence": "One piece of work: \"Instead of showing groups of saved courses as GroupRequirements, use DepartmentCourseGroups\""},
+      {"name": "AI-assisted contribution allowed", "grade": "pass", "evidence": "ICSSC guidelines: \"AI assistance in development and debugging is encouraged\"; human-initiated, human-written and disclosure rules are conditions"},
+      {"name": "Reproduction and completion clarity", "grade": "pass", "evidence": "Concrete expected outcome with current-view and target-component screenshots in the body"},
+      {"name": "Backend or agentic fit", "grade": "fail", "evidence": "Labels Planner and frontend; a UI component swap in the saved-courses view"},
+      {"name": "Open to outside claim", "grade": "fail", "evidence": "README: \"leave a comment expressing your interest and wait for a member of our team to assign it to you\"; no good first task or help wanted label"}
+    ],
+    "verdict": "accept"
+  },
+  {
+    "item": "https://github.com/AcademySoftwareFoundation/dna/issues/255",
+    "checks": [
+      {"name": "Issue fresh", "grade": "pass", "evidence": "Not archived; last push 2026-11-17; issue opened 2026-10-29"},
+      {"name": "Maintainer alive", "grade": "pass", "evidence": "jspada200 default-branch commits 2026-11-17 (#290) and 2026-11-13 (#276)"},
+      {"name": "Active contribution", "grade": "fail", "evidence": "Open linked PR #264 by KrishnaAdityaSrivastava, opened 2026-10-31, last commit and maintainer comment 2026-11-17"},
+      {"name": "scope-feasible", "grade": "pass", "evidence": "One feature: \"Add a new provider type called email provider to the backend\" following the existing provider pattern"},
+      {"name": "AI-assisted contribution allowed", "grade": "pass", "evidence": "CONTRIBUTING.md and PR template are silent on AI; CLA and DCO sign-off are conditions"},
+      {"name": "Reproduction and completion clarity", "grade": "pass", "evidence": "Acceptance criteria listed: provider set in settings, \"Able to send a basic email\""},
+      {"name": "Backend or agentic fit", "grade": "pass", "evidence": "Backend label; provider integration in the FastAPI backend"},
+      {"name": "Open to outside claim", "grade": "pass", "evidence": "Carries the good first issue label"}
+    ],
+    "verdict": "reject"
+  },
+  {
+    "item": "https://github.com/icssc/AntAlmanac/issues/1980",
+    "checks": [
+      {"name": "Issue fresh", "grade": "pass", "evidence": "Not archived; last push 2026-11-17; maintainer comment in thread 2026-11-12"},
+      {"name": "Maintainer alive", "grade": "pass", "evidence": "Human default-branch commits 2026-11-17; Choollol (Collaborator) replied in thread within 5 minutes on 2026-11-12"},
+      {"name": "Active contribution", "grade": "fail", "evidence": "Assigned to victorialee13 since 2026-10-16; open linked PR #2110 by icchou233 opened 2026-11-13, in review"},
+      {"name": "scope-feasible", "grade": "pass", "evidence": "One piece of work: make COURSE_RENAMES lookups stop searching the array in O(n)"},
+      {"name": "AI-assisted contribution allowed", "grade": "pass", "evidence": "ICSSC guidelines: \"AI assistance in development and debugging is encouraged\"; remaining rules are conditions"},
+      {"name": "Reproduction and completion clarity", "grade": "pass", "evidence": "Body: every use \"searches the array with O(n) time\"; maintainer: \"we'd probably want to use maps\""},
+      {"name": "Backend or agentic fit", "grade": "pass", "evidence": "Scheduler data-lookup logic for course renames, not a UI change"},
+      {"name": "Open to outside claim", "grade": "pass", "evidence": "Carries the good first task label"}
+    ],
+    "verdict": "reject"
+  },
+  {
+    "item": "https://github.com/ProjectX-VJTI/Xplore-workshop/issues/27",
+    "checks": [
+      {"name": "Issue fresh", "grade": "pass", "evidence": "Not archived; last push to any branch 2026-11-13 (github-actions[bot] on gh-pages), within 180 days"},
+      {"name": "Maintainer alive", "grade": "fail", "evidence": "Last human default-branch commit 2026-06-05 (165 days ago); the 2026-03-02 claim comment here and July comments on #28, #21, #25 have no maintainer reply"},
+      {"name": "Active contribution", "grade": "pass", "evidence": "No assignee; PR #43 is closed unmerged; the only claim comment is from 2026-03-02"},
+      {"name": "scope-feasible", "grade": "fail", "evidence": "\"This issue is expected as a Standard Exercise for students to do\"; CONTRIBUTING: \"Make all changes only inside your <githubid>_solutions folder\""},
+      {"name": "AI-assisted contribution allowed", "grade": "pass", "evidence": "No explicit AI ban in CONTRIBUTING.md or the PR template; silence passes"},
+      {"name": "Reproduction and completion clarity", "grade": "pass", "evidence": "Steps to run the files in test_playground/basics; expected behavior \"Mentioned in comments of said py files\""},
+      {"name": "Backend or agentic fit", "grade": "fail", "evidence": "Beginner Python exercise scripts, labeled \"problem level 1 - starter\""},
+      {"name": "Open to outside claim", "grade": "pass", "evidence": "Carries the good first issue label"}
+    ],
+    "verdict": "reject"
+  }
+]
+```
