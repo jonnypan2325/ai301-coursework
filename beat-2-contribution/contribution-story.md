@@ -11,7 +11,7 @@ files and no evidence uploads are part of Assignment 5.
 **Student:** Jonathan Pan
 **GitHub Username:** jonnypan2325
 **Issue:** https://github.com/icssc/AntAlmanac/issues/2008
-**Pull Request:** Not opened yet. The repo requires a maintainer to assign the issue before work starts; my claim was posted 2026-11-21 and the GitHub assignment is pending.
+**Pull Request:** Not opened yet. Anthony assigned #2008 to me on 2026-11-22. The fix is built and tested on a local branch, and I'm reviewing the code myself before I open the PR, as ICSSC's guidelines require.
 
 One repository, built across units 5 to 8, telling the whole story of your real
 contribution. Fill it as you work, not at the end — the sections below ask for evidence that
@@ -307,7 +307,7 @@ Tracing it confirmed why my two live runs differed (see Deviations). Lint and th
 
 ## Pull Request
 
-**PR Link:** Not opened yet. Waiting for a maintainer to assign #2008 on GitHub, as the repo requires.
+**PR Link:** Not opened yet. The fix is on local branch `fix/2008-wait-for-loading-course` (commit `b7663c5a5`, not pushed), waiting on my own review of the code.
 
 **PR Description:** Not written yet.
 
@@ -315,9 +315,10 @@ Tracing it confirmed why my two live runs differed (see Deviations). Lint and th
 
 - 2026-11-18: On Discord, Anthony Jenanian said my first pick (#2101) was already assigned internally and suggested checking back after he updated GitHub.
 - 2026-11-20: Anthony okayed me taking #2008 on Discord.
-- 2026-11-21: Posted my claim and reproduction on #2008 (https://github.com/icssc/AntAlmanac/issues/2008#issuecomment-7067955608). No reply on GitHub yet.
+- 2026-11-21: Posted my claim and reproduction on #2008 (https://github.com/icssc/AntAlmanac/issues/2008#issuecomment-7067955608).
+- 2026-11-22: Anthony assigned #2008 to me on GitHub. No reply yet to my question about which fix approach they prefer.
 
-**Status:** Not opened. The claim is posted, and the GitHub assignment is pending.
+**Status:** Not opened. Assigned to me on 2026-11-22; the fix is built and tested locally, and my review comes before the PR.
 
 **Toolkit**
 
