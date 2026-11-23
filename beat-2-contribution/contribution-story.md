@@ -66,43 +66,42 @@ passed a homework exercise (Xplore-workshop#27) on scope.
 
 Because of that, I moved zero-comment issues to the top of the ranking, tightened the AI-policy and scope checks, and added a check that flags repos where a maintainer must assign the issue first.
 
-**Unit 6: [one line on the tool work]**
+**Unit 6: Built the voice guard and the repro-check skills, which I ran on my GitHub Issues Claim**
 
-[2-4 sentences: the voice-guard, the repo-memory file. What broke or
-fell short, and what changed because of it. "Nothing broke" counts when
-it is true - say how you know.]
+I built and installed the voice guard and repro-check skills, and added an upstream rules section for how I comment on open issues and work with maintainers when claiming and reproducing a bug; the voice guard stopped my claim comment twice: first because it had no next step or report-back time, then because it claimed a repro without giving my environment or steps. Separately, repro-check asked for evidence, first for my environment and then for proof, so I added my local run (as a guest), the live site (logged in, Chrome 157, macOS 26), and repro screenshots. With those changes, repro-check accepted the claim, the voice guard passed it, and I posted it to the issue. I did not create the repo-memory file (CLAUDE.local.md) because I was out of time.
 
-**Unit 7: [one line on the tool work]**
 
-[2-4 sentences: the ship-gate and your gate manifest. What it produced
-on your real branch, what fought you, what changed because of it.]
 
-**Unit 8: [one line on the tool work]**
+**Unit 7: Created the shipgate manifest and ran its lint and test checks on my fix branch.**
 
-[2-4 sentences: the PR-monitor and your playbook. What it read, what it
-drafted, what you did with the draft.]
+My ship manifest lists the four checks the repository's CI requires before review: install, fetch term data, `pnpm lint`, and `pnpm test run`. On my fix branch, the first lint run failed because oxfmt flagged formatting in `hooks/planner.ts`; running oxfmt on that file fixed it, and the rerun passed. I added 5 new tests for my bug fix, and the full suite passed: 46 Jest tests and 82 Vitest tests. The one thing I couldn't check locally was the fix as a logged-in user, since I don't have the OAuth secrets. Because of that lint failure, I now run oxfmt before committing.
+
+**Unit 8: The PR monitor, but it was not reached since I haven't opened the PR yet.**
+
+
+I was assigned to fix the issue on 11-22-2026, which was a little too late for this course. I was able to create a fix, but it is only committed locally because I have yet to review the code thoroughly myself before opening a PR.
+My next steps would be to open a PR and have the PR monitor run on it.
 
 ---
 
 ## Why I Chose This Issue
 
-[1-2 paragraphs in your own words: how you searched, what your scan
-surfaced, what your scout's verdict said, why this issue fits your
-profile, and what you hope to learn. If your scout's verdict on it
-was reject and you chose it anyway, say so here and say why; choosing
-against your own tool silently is what loses points. Close with an
-honest read of the tool itself: where the scout fell short on a real
-wild search and what you changed or would change, or what convinced
-you it held up. **Record the link to your claim comment in this section too.**
-Not claimed yet? Write `claim pending` and today's date where the link goes,
-and add the link the moment your claim lands.]
+I ran the issue-scout I built for this course, and it condensed around 300 results to about 94, which I filtered down to 5 top-graded issues. After reviewing them by hand, I found that 3 of the 5 were already claimed that day. So instead of hunting across GitHub, I focused on AntAlmanac because it's a TypeScript monorepo, and it's a Web app that I use regularly for my university course planning, and sorted its issues by hand (frontend versus backend, bug fixes versus new features). Since the repo was entirely new to me, I decided to start with a small bug fix.
+
+My first pick, #2101, passed my search criteria. However, a maintainer told me on Discord that it was already assigned internally, so I looked for a new issue and landed on #2008, which I'm now assigned to fix. My scout's verdict on #2008 was a straightforward accept. It also gave me #2012 and #762 as backups but graded them as ambitious, so I trusted its judgment and picked the more straightforward bug fix.
+
+#2008 is a state and data flow bug where the frontend shows something as saved even though the server never should have saved it. Although the bug is rare in practice, it still happens and would write garbage into a production database. With this fix, I hope to learn more about managing state in a web app and making sure users only write valid data to the server.
+
+Overall, my scout was useful for surfacing earlier conversations on the issue. For example, in December 2025 a maintainer commented that the crash might be gone, and the scout told me to confirm it by reproducing it. I followed that direction and reproduced the bug, though with lower severity than before. One pitfall is that the scout can't see internal assignments, which is why #2101 looked free on GitHub but was actually taken.
+
+Claim: https://github.com/icssc/AntAlmanac/issues/2008#issuecomment-7067955608
 
 **Toolkit**
 
 - Tool: issue-scout (my search strategy and rubric), run headless with Claude Code: one wild scan on 2026-11-11, then direct grades of the issues I picked (2026-11-11, re-graded 2026-11-17, and a third grade on 2026-11-18).
 - What it produced: the third grade accepted #2008 as "straightforward", with every required check passing; #762 and #2012 were accepted as "ambitious". It flagged that the repo wants a maintainer to assign the issue first, and that the December comment said the crash was probably gone, so I should confirm it still reproduces.
-- Difficulties: [where it fell short, or "none met" if none did]
-- What changed: [what you patched or would update, or "nothing"]
+- Difficulties: the scout can't see internal assignments, so #2101 looked open on GitHub but was already taken; it also didn't account for #762's four closed PRs from earlier attempts.
+- What changed: I would add a step that checks for internal assignments by asking maintainers before claiming, and a check that weighs closed PRs linked to an issue.
 
 ---
 
