@@ -109,7 +109,7 @@ Claim: https://github.com/icssc/AntAlmanac/issues/2008#issuecomment-7067955608
 
 **Problem Description**
 
-[In your own words, what is broken or missing?]
+#2008 is a state and data flow bug where the frontend shows something as saved even though the server never should have saved it.
 
 **Expected Behavior**
 
@@ -299,7 +299,8 @@ Tracing it confirmed why my two live runs differed (see Deviations). Lint and th
 
 - Tool: Claude Code, keeping a facts-only evidence file (`docs/issue-2008-repro-evidence.md`) and project memory up to date as findings changed.
 - What it produced: a dated record that let me catch the 2026-11-18 "nothing reaches the server" conclusion being overturned by my 2026-11-21 run.
-- Difficulties: I wrote my NI now mark findings as superseded when new evidence overturns them, instead of leaving the old conclusion standing.TODO(you)
+- Difficulties: I wrote my Nov 18 conclusion down as fact, and it turned out to be wrong.
+- What changed: I now mark findings as superseded when new evidence overturns them, instead of leaving the old conclusion standing.
 
 ---
 
