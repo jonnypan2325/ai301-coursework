@@ -214,7 +214,12 @@ If the maintainers prefer it, the fallback is the simpler fix: disable Save whil
 3. Add a Jest test (planner site, jsdom) that puts a loading placeholder in a quarter, triggers save, and asserts the payload carries the real course and never `Loading...`.
 4. Run `pnpm lint` and `pnpm test run` (the repo's CI checks).
 
-Deviations: none yet. Building has not started because the issue is not assigned to me on GitHub.
+Deviations, recorded 2026-11-22 when I built it:
+- The helpers went into a new file, `helpers/loadingCourses.ts` (`hasLoadingCourse`, `removeLoadingCourses`, `waitForLoadedCourses`), rather than into `helpers/planner.ts`, so they can be tested without the save code.
+- `useSaveRoadmap` now reads the latest store state through `useStore` instead of values captured at render time.
+- I added a 10 s timeout: if the course never loads (e.g. `courses.get` fails), the save goes ahead with the placeholder stripped instead of spinning forever. Step 2 ("confirm the payload can't contain `Loading...`") became that strip.
+- Step 3's Jest test targets the new helpers rather than rendering the hook.
+- The root cause I'd marked as a hypothesis was confirmed in `helpers/roadmapEdits.ts` (`modifyQuarterCourse`): when the course loads, its revision's "before" snapshot leaves the placeholder out. Rolling back to the last save can therefore make that quarter differ (the placeholder gets sent, as in the 2026-11-21 run) or match (an empty diff, as in the 2026-11-18 run).
 
 **Toolkit**
 
@@ -227,12 +232,28 @@ Deviations: none yet. Building has not started because the issue is not assigned
 
 ## Testing Strategy
 
-Planned; nothing below has been run yet because the fix is not built.
+Run on 2026-11-22 against branch `fix/2008-wait-for-loading-course` (commit `b7663c5a5`). Results are below each check.
 
 1. **Unit test (new):** a Jest test that saves while a course is loading. Before the fix, it should show `Loading...` in the payload (or the course missing). After the fix: the real course id, and no `Loading...`. It is independent of network speed.
 2. **Repro re-run, logged out, local:** the same steps with 3G throttling. Before: localStorage `roadmap` holds `courseId: "Loading..."` and the course is gone after reload. After: localStorage holds the real course id and it survives a reload.
 3. **Repro re-run, Network tab:** the `roadmaps.save` payload must never contain `Loading...`. Logged-in local testing needs OAuth secrets I don't have, so I will ask the maintainers to confirm the logged-in path, or rely on the unit test.
 4. **Repo checks:** `pnpm lint` (oxfmt and oxlint) and `pnpm test run`, with output pasted into the PR.
+
+Results:
+- **New tests:** `helpers/loadingCourses.test.ts`, 5 passed. They cover:
+  - detecting a placeholder;
+  - stripping it without mutating the plans;
+  - resolving at once when nothing is loading;
+  - waiting until the real course replaces the placeholder;
+  - giving up after the timeout.
+- **Repro re-run, logged out, local** (Claude Code drove Chrome with the same 8 s delay):
+  - While loading, the Save button showed its spinner and made 0 localStorage writes.
+  - After the load, one write: Fall = `{"courseId":"I&CSCI45C"}`.
+  - After a reload, I&C SCI 45C was still there, 4 units.
+  - Before the fix, the same steps stored `{"courseId":"Loading..."}`, and the quarter was empty after reload.
+- **`pnpm lint`:** exit 0. The first run flagged formatting in `hooks/planner.ts`; I fixed it with oxfmt.
+- **`pnpm test run`:** exit 0. Planner Jest: 46 passed, 47 skipped (already skipped in the repo). Vitest: 15 files, 82 tests passed.
+- **Not tested:** the logged-in save end to end locally (no OAuth secrets). It goes through the same wait in `useSaveRoadmap`.
 
 **Toolkit**
 
@@ -269,7 +290,11 @@ My own live run captured `Loading...` in the save payload, and the server return
 
 **2026-11-22**
 
-Waiting for the GitHub assignment. The fix is not started, per the repo's assign-first rule.
+Anthony assigned #2008 to me on GitHub, so I started the fix. I went with the "wait" approach from my comment:
+- `useSaveRoadmap` waits for loading placeholders to clear, reads fresh store state, and never sends a placeholder.
+- A 10 s timeout keeps a failed load from hanging the save.
+
+Tracing it confirmed why my two live runs differed (see Deviations). Lint and the full test command pass, and the logged-out repro now saves the real course.
 
 **Toolkit**
 
