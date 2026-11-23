@@ -141,8 +141,8 @@ All under `apps/antalmanac-planner/site/src`:
 
 - Tool: Claude Code, used to trace the save path through the planner source (drag, placeholder, save hook, payload) after I described the issue's steps.
 - What it produced: the file-and-function chain listed under Affected Components, ending at `useSaveRoadmap` with no loading check.
-- Difficulties: TODO(you)
-- What changed: TODO(you)
+- Difficulties: My code read predicted that logged-in saves were safe, because the placeholder would cancel out of the diff, but my Nov 21 screenshots showed Loading... saved on the server.
+- What changed: I now trust live evidence over a code read, and I label a code-read conclusion as a hypothesis until I've tested it.
 
 ---
 
@@ -179,8 +179,8 @@ Challenges:
 
 - Tool: repro-check (my Unit 2 rubric with the wild scope) and the voice guard, plus Claude Code driving Chrome for the delayed runs.
 - What it produced: repro-check held my draft twice (environment missing, then evidence missing), then accepted it, with all seven required checks passing. The voice guard stopped two drafts (no next step and report-back time, then no environment or steps) before passing.
-- Difficulties: TODO(you)
-- What changed: TODO(you)
+- Difficulties: My first 3G try didn't trigger the bug, because hovering the course chip prefetched the course before I dragged it.
+- What changed: I dragged without hovering and saved within about 1.5 s, which reproduced it.
 
 ---
 
@@ -224,8 +224,8 @@ Deviations, recorded 2026-11-22 when I built it:
 
 - Tool: Claude Code, reading `useSaveRoadmap`, `SaveButton` and `roadmapSlice` to weigh the two fixes from the thread. plan-check has not been run yet, because the plan waits on the maintainers' choice of approach.
 - What it produced: the finding that a saving state already exists (`saveInProgress`, with a spinner on the Save button), so the "wait" fix needs no new UI.
-- Difficulties: TODO(you)
-- What changed: TODO(you)
+- Difficulties: The maintainers haven't picked between the two fixes yet, and the save handler reads the planners captured at render time, so it would save stale data after waiting.
+- What changed: The fix re-reads the current state after the wait instead of using the captured planners.
 
 ---
 
@@ -258,8 +258,8 @@ Results:
 
 - Tool: ship-gate (installed, with `ship-manifest.md` in my clone). Not run yet: there is no fix branch to gate.
 - What it produced: nothing yet. The checks it will run are listed above.
-- Difficulties: TODO(you)
-- What changed: TODO(you)
+- Difficulties: I can't log in locally without the OAuth secrets, and the bug depends on timing, so it's hard to trigger on demand.
+- What changed: I'm planning unit tests that don't depend on network speed.
 
 ---
 
@@ -299,8 +299,7 @@ Tracing it confirmed why my two live runs differed (see Deviations). Lint and th
 
 - Tool: Claude Code, keeping a facts-only evidence file (`docs/issue-2008-repro-evidence.md`) and project memory up to date as findings changed.
 - What it produced: a dated record that let me catch the 2026-11-18 "nothing reaches the server" conclusion being overturned by my 2026-11-21 run.
-- Difficulties: TODO(you)
-- What changed: TODO(you)
+- Difficulties: I wrote my NI now mark findings as superseded when new evidence overturns them, instead of leaving the old conclusion standing.TODO(you)
 
 ---
 
@@ -323,8 +322,8 @@ Tracing it confirmed why my two live runs differed (see Deviations). Lint and th
 
 - Tool: PR-monitor. Not installed or run yet, because no PR is open.
 - What it produced: nothing yet.
-- Difficulties: TODO(you)
-- What changed: TODO(you)
+- Difficulties: No PR is open yet, because the assignment only came on Nov 22.
+- What changed: I'll review the fix before opening the PR.
 
 ---
 
@@ -332,16 +331,15 @@ Tracing it confirmed why my two live runs differed (see Deviations). Lint and th
 
 **Technical Skills Gained**
 
-[What you learned technically, named concretely.]
+I learned how AntAlmanac's Redux revisions and diff-based saving work, including how restoreRevision and collapseAllPlanners shape what gets sent to the server. Reading the network tab, I saw tRPC batching in action, with the savedCourses.get call bundled into the same request as roadmaps.get, and I traced the _rsc requests to Next.js <Link> prefetching. I also got much more comfortable with DevTools throttling, the Payload and Response tabs, and inspecting localStorage.
 
 **Challenges Overcome**
 
-[What was hard and how you solved it; point at the real events, the
-Toolkit blocks above are full of them.]
+The hardest part was the roughly 2-second race window, which made the bug easy to miss and slow to reproduce. Losing #2101 to an internal assignment that GitHub didn't show cost me time, and my own Nov 21 evidence overturned the conclusion I'd written down on Nov 18. Repro-check's strict holds also made me add an environment line and screenshots before it would accept my claim.
 
 **What I'd Do Differently Next Time**
 
-[Reflection on your process.]
+I would ask the team which issues are actually free before I start scouting, so I don't lose a pick to an internal assignment. I would test both logged in and logged out from the start, since that difference is what my code read got wrong. And I would screenshot every observation as it happens, instead of reconstructing evidence afterward.
 
 ---
 
